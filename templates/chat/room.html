@@ -1,10 +1,21 @@
-   <script>
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="utf-8"/>
+     <title>Chat Room {{ room_name }}</title>
+ </head>
+ <body>
+    Welcome to {{ room_name }} chat room <br/>
+    <textarea id="chat-log" rows="30" cols="100"></textarea><br/>
+     <input id="chat-message-input" type="text" size="100"><br/>
+     <input id="chat-message-submit" type="button" value="Send">
+    <script>
         // 获取房间名
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const roomName = '{{ room_name }}';
 
         // 根据roomName拼接websocket请求地址，建立长连接
         // 请求url地址为/ws/chat/<room_name>/
-        const wss_protocol = (window.location.protocol == 'https:') ? 'wss://': 'ws://';
+        const wss_protocol = (window.location.protocol === 'https:') ? 'wss://': 'ws://';
         const chatSocket = new WebSocket(
              wss_protocol + window.location.host + '/ws/chat/'  + roomName + '/'
             );
@@ -18,7 +29,7 @@
         // 接收到后台数据后对其解析，并加入到聊天记录chat-log
          chatSocket.onmessage = function(e) {
              const data = JSON.parse(e.data);
-             document.querySelector('#chat-log').value += (data.message + '');
+             document.querySelector('#chat-log').value += (data.message + '\n');
         };
 
          // websocket连接断开时触发此方法
@@ -45,3 +56,5 @@
              messageInputDom.value = '';
         };
      </script>
+  </body>
+ </html>

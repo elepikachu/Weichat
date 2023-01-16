@@ -19,6 +19,7 @@ class ChatConsumer(WebsocketConsumer):
 
         # 接受所有websocket请求
         self.accept()
+        print('connecting......')
 
     # websocket断开时执行方法
     def disconnect(self, close_code):
@@ -29,6 +30,7 @@ class ChatConsumer(WebsocketConsumer):
 
     # 从websocket接收到消息时执行函数
     def receive(self, text_data):
+        print('receive', text_data)
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
