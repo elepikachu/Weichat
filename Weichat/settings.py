@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'Weichat.wsgi.application'
+WSGI_APPLICATION = 'Weichat.wsgi.application'
 ASGI_APPLICATION = 'Weichat.asgi.application'
 
 # Database
@@ -136,11 +136,17 @@ LOGIN_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#CHANNEL_LAYERS = {
+#    "default": {
+#        "BACKEND": "channels_redis.core.RedisChannelLayer",
+#        "CONFIG": {
+#            "host": [('127.0.0.1', 6379)],
+#        },
+#    },
+#}
+
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.core.RedisChannelLayer",
-        "CONFIG": {
-            "host": [('127.0.0.1', 6379)],
-        },
-    },
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
 }
