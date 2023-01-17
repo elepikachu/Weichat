@@ -2,8 +2,8 @@
 {% load static %}
 <html>
 <head>
-<title>{{ ver }}-Chat Rooms</title>
-<link rel="shortcut icon" href="{% static 'image/icon.ico' %}">
+<title>{{ ver }}-Help</title>
+<link rel="shortcut icon" href="{% static 'images/icon.ico' %}">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -19,7 +19,7 @@ body {
 
 /* 标题 */
 .header {
-    padding: 80px;
+    padding: 30px;
     text-align: center;
     background: lightblue;
     color: white;
@@ -38,17 +38,12 @@ body {
 
 /* 导航栏样式 */
 .navbar a {
-    float: left;
+    float: bottom;
     display: block;
     color: white;
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
-}
-
-/* 右侧链接*/
-.navbar a.right {
-    float: right;
 }
 
 /* 鼠标移动到链接的颜色 */
@@ -65,14 +60,24 @@ body {
     flex-wrap: wrap;
 }
 
+
+.side h5 {
+    font-size: 20px;
+}
+
+.side a {
+    font-size: 20px;
+}
+
 /* 主要的内容区域 */
 .main {
     -ms-flex: 70%; /* IE10 */
     flex: 70%;
-    text-align: center;
-    background-color: white;
+    height: 600px;
+    background-color: lightcyan;
     padding: 20px;
 }
+
 
 /* 底部 */
 .footer {
@@ -98,37 +103,34 @@ body {
 </style>
 </head>
 <body>
+
 <div class="header">
-  <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ ver }}-Chooce Chating Room</h1>
-  <p>please chooce the room you want to enter</p>
+  <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ ver }}-Help</h1>
+  <p>@elepikachu 2023 / all right reserved</p>
 </div>
 
 <div class="navbar">
-  <a href="/chat/main">Main Chating Room</a>
-  <a href="/" class="right">Back to Main Page</a>
+  <a href="/">Back to main page</a>
 </div>
 
 <div class="row">
   <div class="main">
-     Please enter the name of the chating room you want to enter：<br />
-     <input id="room-name-input" type="text" size="100">
-     <input id="room-name-submit" type="button" value="Enter">
+      <p>
+          <b>Weichat Help</b><br /><br />
+          1.Please Login first before using<br />
+          You need a inviting code before register.<br />
+          If you don't have the code, please contact the manager.<br /><br />
+          2.Choose the chating room<br />
+          The same chating room will meet together<br /><br />
+          3.Start chating<br />
+          Enjoy it :)<br /><br />
+          4.Delete chating record<br />
+          Chating record will permentally deleted, please use this function with care<br /><br />
+          5.Logout<br />
+          Don't forget logout the system before leave.<br /><br />
+      </p>
   </div>
 </div>
-
-<script>
- document.querySelector('#room-name-input').focus();
- document.querySelector('#room-name-input').onkeyup = function(e) {
-     if (e.keyCode === 13) {  // enter, return
-         document.querySelector('#room-name-submit').click();
-    }
-};
-
- document.querySelector('#room-name-submit').onclick = function(e) {
-     var roomName = document.querySelector('#room-name-input').value;
-     window.location.pathname = '/chat/' + roomName + '/';
-};
-</script>
 
 <div class="footer">
   <h2>
