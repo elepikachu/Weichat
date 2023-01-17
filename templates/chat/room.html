@@ -109,7 +109,6 @@ body {
 </div>
  <div class="row">
   <div class="main">
-     Welcome to {{ room_name }} chat room <br/>
      <textarea id="chat-log" rows="30" cols="100" style="opacity: 0.6"></textarea><br/>
      <input id="input" type="text" size="100" style="opacity: 0.6"><br/>
      <input id="submit" type="button" value="Send">
@@ -128,7 +127,7 @@ body {
 
         // 建立websocket连接时触发此方法，展示欢迎提示
         chatSocket.onopen = function(e) {
-            document.querySelector('#chat-log').value += ('[Info]Welcome to' + roomName + 'discuss group!')
+            document.querySelector('#chat-log').value += ('[Info]Welcome to ' + roomName + ' chat room!\n')
         }
 
         // 从后台接收到数据时触发此方法
@@ -157,7 +156,7 @@ body {
 
              //注意这里:先把文本数据转成json格式,然后调用send方法发送。
              chatSocket.send(JSON.stringify({
-                 'message': message
+                 'message': '{{ user }}' + ': ' + message
             }));
              messageInputDom.value = '';
         };

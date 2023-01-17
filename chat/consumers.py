@@ -6,6 +6,7 @@ import datetime
 class ChatConsumer(AsyncWebsocketConsumer):
     # websocket建立连接时执行方法
     async def connect(self):
+        print('try connecting......')
         # 从url里获取聊天室名字，为每个房间建立一个频道组
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
@@ -18,7 +19,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # 接受所有websocket请求
         await self.accept()
-        print('connecting......')
 
     # websocket断开时执行方法
     async def disconnect(self, close_code):
@@ -49,5 +49,5 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # 通过websocket发送消息到客户端
         await self.send(text_data=json.dumps({
-            'message': f'{datetime_str}:{message}'
+            'message': f'{datetime_str}-{message} \n'
         }))

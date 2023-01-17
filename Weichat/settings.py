@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'daphne',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -72,6 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Weichat.wsgi.application'
+
 ASGI_APPLICATION = 'Weichat.asgi.application'
 
 # Database
@@ -131,7 +133,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticroot")
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_URL = '/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -142,7 +143,7 @@ CHANNEL_LAYERS = {
    "default": {
        "BACKEND": "channels_redis.core.RedisChannelLayer",
        "CONFIG": {
-           "host": [('127.0.0.1', 6379)],
+           "hosts": [('127.0.0.1', 6379)],
        },
    },
 }
