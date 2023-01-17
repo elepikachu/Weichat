@@ -80,8 +80,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'weichat',
         'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': '10.122.176.4',
+        'PASSWORD': 'zhouzize',
+        'HOST': 'localhost',
         'PORT': '3306'
     }
 }
