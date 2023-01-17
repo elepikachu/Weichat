@@ -16,6 +16,15 @@ def main_view(request):
     return render(request, 'main.html', dic)
 
 
+# -------------------------------------------------------------
+# 函数名： help_view
+# 功能： 网站首页
+# -------------------------------------------------------------
+def help_view(request):
+    dic = {'ver': VERSION}
+    return render(request, 'help.html', dic)
+
+
 def register_view(request):
     if request.method == 'GET':
         return render(request, 'register.html')
