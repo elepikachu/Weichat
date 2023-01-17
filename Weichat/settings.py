@@ -22,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-^8kz9hb45$-%qh=to##@q#^r@=@jd0-+77mgujv_a3^xftsp*5'
 
+LOGIN_URL = "/login"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -69,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'Weichat.wsgi.application'
+WSGI_APPLICATION = 'Weichat.wsgi.application'
 ASGI_APPLICATION = 'Weichat.asgi.application'
 
 # Database
@@ -137,10 +139,16 @@ LOGIN_URL = '/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.core.RedisChannelLayer",
-        "CONFIG": {
-            "host": [('127.0.0.1', 6379)],
-        },
-    },
+   "default": {
+       "BACKEND": "channels_redis.core.RedisChannelLayer",
+       "CONFIG": {
+           "host": [('127.0.0.1', 6379)],
+       },
+   },
 }
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer'
+#     }
+# }
