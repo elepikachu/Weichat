@@ -94,7 +94,7 @@ body {
 <body>
 
 <div class="header">
-    <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ ver }}-MAIN PAGE</h1>
+    <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ ver }}-MAIN PAGE</h1>
     {% if not user.username %}
         <p>
             Welcome to elepikachu's chating app, please login first&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -112,11 +112,12 @@ body {
 <div class="row">
   <div class="side">
       <h5>*****INDEX*****</h5>
-      <a href="chat">START CHATING</a><br />
+      <a href="chat">START CHAT</a><br />
       <a href="help">HELP</a><br />
+      <a href="chooce">RANDOM CHOICE</a><br />
   </div>
   <div class="main">
-      <img src="{% static 'image/main.jpg' %}" width="100%" height="100%" align="center">
+      <img src="{% static 'image/main.jpg' %}" width="100%" height="100%">
   </div>
 </div>
 

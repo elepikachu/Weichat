@@ -58,3 +58,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+
+def choose_view(request):
+    return render(request, 'choose.html')

@@ -2,8 +2,8 @@
 {% load static %}
 <html>
 <head>
-<title>{{ ver }}-Register</title>
-<link rel="shortcut icon" href="{% static 'images/icon.ico' %}">
+<title>Make a random choice</title>
+<link rel="shortcut icon" href="{% static 'image/icon.ico' %}">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -19,7 +19,7 @@ body {
 
 /* 标题 */
 .header {
-    padding: 30px;
+    padding: 80px;
     text-align: center;
     background: lightblue;
     color: white;
@@ -38,12 +38,17 @@ body {
 
 /* 导航栏样式 */
 .navbar a {
-    float: bottom;
+    float: left;
     display: block;
     color: white;
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
+}
+
+/* 右侧链接*/
+.navbar a.right {
+    float: right;
 }
 
 /* 鼠标移动到链接的颜色 */
@@ -60,7 +65,6 @@ body {
     flex-wrap: wrap;
 }
 
-
 .side h5 {
     font-size: 20px;
 }
@@ -70,14 +74,38 @@ body {
 }
 
 /* 主要的内容区域 */
-.main {
+.container {
     -ms-flex: 70%; /* IE10 */
     flex: 70%;
     height: 600px;
-    background-color: lightcyan;
+    background-image:  url({% static 'image/babara.jpeg' %});
+    background-size: 80%;
     padding: 20px;
 }
 
+#textarea{
+    border:none;
+    display: block;
+    width:100%;
+    height:100px;
+    font-size:16px;
+    margin:0 0 20px;
+    padding: 10px;
+}
+
+.tag{
+    background-color: powderblue;
+    color:#fff;
+    border-radius: 50px;
+    padding:10px 20px;
+    margin:0 5px 10px 0;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.highlight{
+    background-color: #273c75;
+}
 
 /* 底部 */
 .footer {
@@ -102,40 +130,37 @@ body {
 }
 </style>
 </head>
-<body>
-<form action="/register" method="post">
-    {% csrf_token %}
-     <div class="header">
-  <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register</h1>
-  <p>@elepikachu 2023 / all right reserved</p>
+ <body>
+ <div class="header">
+  <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; make a random choice</h1>
+  <p>Welcome to {{ room_name }} Chat Room</p>
 </div>
-    <div class="navbar">
-  <a href="/">Back to main page</a>
+
+<div class="navbar">
+  <a href="/">Back to Main Page</a>
 </div>
-    <div class="row">
-    <div class="main">
-    <h2>Please Input your information here</h2>
-    <p>
-        UserName (will be used as your chating id) <input type="text" name="username">
-    </p>
-    <p>
-        Password <input type="password" name="password1">
-    </p>
-    <p>
-        Repeat your password <input type="password" name="password2">
-    </p>
-    <p>
-        Inviting Code <input type="text" name="code">
-    </p>
-    <input type="submit" name="submit" value="submit" size="5">
-    <input type="reset" value="reset" name="reset" size="5">
-        </div>
-    </div>
-    <div class="footer">
+<div class="row">
+  <div class="container">
+      <p>
+          Input the item you would like to make choice among.（eg. KFC, MacDonald, BuggerKing）
+          Click Enter after finish it. The choice tool will help you make your choice randomly.
+      </p>
+          <textarea placeholder="enter your choice here.." id="textarea"></textarea>
+      <div id="tags">
+          <span class="tag">item 1</span>
+          <span class="tag">item 2</span>
+          <span class="tag">item 3</span>
+      </div>
+  </div>
+</div>
+
+<script src="{% static 'js/choice.js' %}"></script>
+
+<div class="footer">
   <h2>
       powered by elepikachu
   </h2>
 </div>
-</form>
+
 </body>
 </html>

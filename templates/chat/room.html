@@ -99,12 +99,12 @@ body {
 </head>
  <body>
  <div class="header">
-  <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ ver }}-{{ room_name }} Chating Room</h1>
-  <p>Welcome to {{ room_name }} Chating Room</p>
+  <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ ver }}-{{ room_name }} Chat Room</h1>
+  <p>Welcome to {{ room_name }} Chat Room</p>
 </div>
 
 <div class="navbar">
-  <a href="/chat">Rechoose Chating Room</a>
+  <a href="/chat">Rechoose Chat Room</a>
   <a href="/" class="right">Back to Main Page</a>
 </div>
  <div class="row">
@@ -116,17 +116,21 @@ body {
 </div>
 <script>
         // 获取房间名
-        var roomName = '{{ room_name }}';
+        const roomName = '{{ room_name }}';
 
         // 根据roomName拼接websocket请求地址，建立长连接
         // 请求url地址为/ws/chat/<room_name>/
         const wss_protocol = (window.location.protocol === 'https:') ? 'wss://': 'ws://';
-        var chatSocket = new WebSocket(
+        const chatSocket = new WebSocket(
              wss_protocol + window.location.host + '/ws/chat/'  + roomName + '/'
             );
 
         // 建立websocket连接时触发此方法，展示欢迎提示
         chatSocket.onopen = function(e) {
+            const welcome_word = '[Broadcast]' + '{{ user }}' + ' join the chat';
+            chatSocket.send(JSON.stringify({
+                 'message': welcome_word
+            }));
             document.querySelector('#chat-log').value += ('[Info]Welcome to ' + roomName + ' chat room!\n')
         }
 
