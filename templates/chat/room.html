@@ -74,6 +74,61 @@ body {
     padding: 20px;
 }
 
+.log {
+    opacity: 0.6;
+    width: 800px;
+    border: 1px solid;
+    background-color: white;
+    margin: auto;
+    height: 400px;
+    overflow: scroll;
+}
+
+.leftt {
+    text-align: left;
+    background-color: #5b80b2;
+    height: auto;
+    width: auto;
+    min-width: 100px;
+    border-radius: 10px;
+}
+
+.leftt::after{
+            content: '';
+            width: 0;
+            height: 0;
+            border: 10px solid;
+            border-color: transparent transparent #5b80b2 transparent;
+            position: relative;
+            top:-25px;
+            left:-30px;
+        }
+
+.rightt {
+    text-align: right;
+    background-color: #81d4fa;
+    height: auto;
+    width: auto;
+    min-width: 100px;
+    border-radius: 10px;
+}
+
+.rightt::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border: 10px solid;
+    border-color: transparent transparent #81d4fa transparent;
+    position: relative;
+    top:-25px;
+    left:-30px;
+    }
+
+.redt {
+    text-align: left;
+    color: red;
+}
+
 /* 底部 */
 .footer {
     padding: 20px;
@@ -109,7 +164,7 @@ body {
 </div>
  <div class="row">
   <div class="main">
-     <textarea id="chat-log" rows="30" cols="100" style="opacity: 0.6"></textarea><br/>
+     <div class="log" id="chat-log"></div><br/>
      <input id="input" type="text" size="100" style="opacity: 0.6"><br/>
      <input id="submit" type="button" value="Send">
   </div>
@@ -129,20 +184,33 @@ body {
         chatSocket.onopen = function(e) {
             const welcome_word = '[Broadcast]' + '{{ user }}' + ' join the chat';
             chatSocket.send(JSON.stringify({
-                 'message': welcome_word
+                 'message': welcome_word,
+                 'user': 'Broadcast'
             }));
-            document.querySelector('#chat-log').value += ('[Info]Welcome to ' + roomName + ' chat room!\n')
+            document.querySelector('#chat-log').innerHTML += ('<div class="redt">[Info]Welcome to ' + roomName + ' chat room!</div><br/>')
         }
 
         // 从后台接收到数据时触发此方法
         // 接收到后台数据后对其解析，并加入到聊天记录chat-log
          chatSocket.onmessage = function(e) {
              const data = JSON.parse(e.data);
-             document.querySelector('#chat-log').value += (data.message + '\n');
+
+             if (data["user"] === 'Broadcast') {
+                 document.querySelector('#chat-log').innerHTML += ('<div class="redt">' + data["date"] + '-' + data["message"] + '</div><br/>');
+             } else if (data["user"] === '{{ user }}') {
+                 document.querySelector('#chat-log').innerHTML += ('<div class="rightt">' + data["date"] + '-' + data["user"] + ': ' + data["message"] + '</div><br/>');
+             } else {
+                 document.querySelector('#chat-log').innerHTML += ('<div class="leftt">' + data["date"] + '-' + data["user"] + ': ' +  data["message"] + '</div><br/>');
+             }
         };
 
          // websocket连接断开时触发此方法
          chatSocket.onclose = function(e) {
+            const leave_word = '[Broadcast]' + '{{ user }}' + ' leave the chat';
+            chatSocket.send(JSON.stringify({
+                 'message': leave_word,
+                 'user': 'Broadcast'
+            }));
              console.error('Chat socket closed unexpectedly');
         };
 
@@ -160,7 +228,8 @@ body {
 
              //注意这里:先把文本数据转成json格式,然后调用send方法发送。
              chatSocket.send(JSON.stringify({
-                 'message': '{{ user }}' + ': ' + message
+                 'message': message,
+                 'user': '{{ user }}',
             }));
              messageInputDom.value = '';
         };
