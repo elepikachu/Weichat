@@ -176,6 +176,11 @@ body {
         let line = document.getElementById("chat-log");
         line.innerHTML = '';
     }
+    function addEmoji() {
+        let line = document.getElementById("input");
+        let emoji = document.getElementById("emoji");
+        line.value += emoji.value;
+    }
 </script>
 </head>
  <body>
@@ -191,9 +196,30 @@ body {
  <div class="row">
   <div class="main">
      <div class="log" id="chat-log"></div><br/>
-     <input id="input" type="text" size="100" style="opacity: 0.6"><br/>
-     <input id="submit" type="button" value="Send">
-      <input type="button" value="Reset" onclick="clearInput()">
+     <input id="input" type="text" size="100" style="opacity: 0.6"> &nbsp;&nbsp;
+      <select id="emoji" onchange="addEmoji()">
+          <option>😀</option>
+          <option>😄</option>
+          <option>😁</option>
+          <option>😆</option>
+          <option>😅</option>
+          <option>😂</option>
+          <option>🙂</option>
+          <option>😍</option>
+          <option>😘</option>
+          <option>😋</option>
+          <option>😎</option>
+          <option>😟</option>
+          <option>😡</option>
+          <option>😱</option>
+          <option>😮</option>
+          <option>😭</option>
+          <option>😵</option>
+      </select><br/>
+     <input id="submit" type="button" value="Send">&nbsp;&nbsp;
+      <input type="button" value="Reset" onclick="clearInput()">&nbsp;&nbsp;&nbsp;&nbsp;
+{#      <input id="img" type="file" style="display: none">#}
+{#      <input type="button" value="Send Image" onclick="document.getElementById('img').click()">#}
   </div>
 </div>
 <script>
@@ -227,12 +253,10 @@ body {
                  document.querySelector('#chat-log').innerHTML += ('<div class="redt">' + data["date"] + '-' + data["message"] + '</div><br/>');
              } else if (data["user"] === '{{ user }}') {
                  let imgName = getImgName(data["user"], dic);
-                 console.log(imgName)
                  document.querySelector('#chat-log').innerHTML += ('<div class="rightl">' + data["date"] + '-' + data["user"] + '<img src="/media/' + imgName + '" width="20px"></div>')
                  document.querySelector('#chat-log').innerHTML += ('<div class="rightt">' + data["message"] + '</div><br/>');
              } else {
                  let imgName = getImgName(data["user"], dic);
-                 console.log(imgName)
                  document.querySelector('#chat-log').innerHTML += ('<div class="leftl">' + data["date"] + '-' + data["user"] + '<img src="/media/' + imgName + '" width="20px"></div>')
                  document.querySelector('#chat-log').innerHTML += ('<div class="leftt">' +  data["message"] + '</div><br/>');
              }
@@ -267,6 +291,17 @@ body {
             }));
              messageInputDom.value = '';
         };
+
+         {#document.querySelector('#img').onchange = function(e) {#}
+         {#    var file = e.target.files[0];#}
+         {#    console.log(file)#}
+         {#    fileUpload(file)#}
+         {#    chatSocket.send(JSON.stringify({#}
+         {#        'message': '<img src="/media/tmpimg/' + file.name + '" width="60px">',#}
+         {#        'user': '{{ user }}',#}
+         {#   }));#}
+         {#    console.log('<img src="/media/tmpimg/' + file + '" width="60px">')#}
+         //}
 </script>
 
 <div class="footer">
