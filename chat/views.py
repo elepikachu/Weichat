@@ -1,5 +1,7 @@
+from django.core import serializers
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from .models import UserImage
 
 VERSION = 'WeiChat 1.0.0'
 
@@ -12,5 +14,6 @@ def chat_view(request):
 
 @login_required(login_url="/login")
 def room_view(request, room_name):
-    dic = {'ver': VERSION, 'room_name': room_name, 'user':request.user}
+    imgdic = serializers.serialize("json", UserImage.objects.all())
+    dic = {'ver': VERSION, 'room_name': room_name, 'user': request.user, 'imgdic': imgdic}
     return render(request, 'chat/room.html', dic)

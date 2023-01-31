@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-<title>{{ ver }}-Help</title>
+<title>Upload user image</title>
 <link rel="shortcut icon" href="{% static 'images/icon.ico' %}">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,6 +60,10 @@ body {
     flex-wrap: wrap;
 }
 
+#info {
+    color: #999999;
+    font-size: 15px;
+}
 
 .side h5 {
     font-size: 20px;
@@ -101,45 +105,44 @@ body {
     }
 }
 </style>
+<script>
+    function submit_res() {
+        alert('upload success');
+        return true;
+    }
+</script>
 </head>
 <body>
-
-<div class="header">
-  <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ ver }}-Help</h1>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+     <div class="header">
+  <h1><img src="{% static 'image/weichat.jpg' %}" width="80px" height="80px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Upload user image</h1>
   <p>@elepikachu 2023 / all right reserved</p>
 </div>
-
-<div class="navbar">
+    <div class="navbar">
   <a href="/">Back to main page</a>
 </div>
-
-<div class="row">
-  <div class="main">
-      <p>
-          <b>Weichat Help</b><br /><br />
-          1.Please Log in first before using<br />
-          You need an inviting code before register.<br />
-          If you don't have the code, please contact the manager.<br />
-          You should upload your user image after register.<br /><br />
-          2.Choose the chat room<br />
-          Chat room name should be English and contains no space<br /><br />
-          The same chat room will meet together<br /><br />
-          3.Start chat<br />
-          Enjoy it :)<br /><br />
-          4.Delete chat record<br />
-          Chat record will be automatically permanently deleted<br /><br />
-          you don't need to worry about your privacy<br /><br />
-          5.Logout<br />
-          Don't forget logout the system before leave.<br /><br />
-      </p>
-  </div>
-</div>
-
-<div class="footer">
+    <div class="row">
+    <div class="main">
+        <h2>*Hello, {{ usr }}, this is your current user image*</h2>
+        {% if img != '' %}
+            <img src="media/{{ img }}" width="50px">
+        {% else %}
+            <img src="media/images/default.jpg" width="50px">
+        {% endif %}
+       <h2>If you want to update, Please choose your user image here</h2>
+    <p>
+        <input type="file" id="img" name="img">
+    </p>
+    <input type="submit" name="submit" value="submit" onclick="return submit_res()" size="5">
+    <input type="reset" value="reset" name="reset" size="5">
+    </div>
+    </div>
+    <div class="footer">
   <h2>
       powered by elepikachu
   </h2>
 </div>
-
+</form>
 </body>
 </html>
