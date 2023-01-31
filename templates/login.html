@@ -101,6 +101,19 @@ body {
     }
 }
 </style>
+<script>
+    function show_password() {
+        let pwd = document.getElementById("pwd");
+        let eye = document.getElementById("eye")
+        if (pwd.type === 'password') {
+            pwd.type = 'text';
+            eye.src = "{% static 'image/closeeye.jpeg' %}";
+        } else if (pwd.type === 'text') {
+            pwd.type = 'password';
+            eye.src = "{% static 'image/eye.jpg' %}";
+        }
+    }
+</script>
 </head>
 <body>
 <form action="/login" method="post">
@@ -118,7 +131,8 @@ body {
         UserName <input type="text" name="username">
     </p>
     <p>
-        Password <input type="password" name="password">
+        Password <input type="password" name="password" id="pwd">
+        <img src="{% static 'image/eye.jpg' %}" width="20px" height="20px" id="eye" onclick="show_password()">
     </p>
     <input type="submit" name="submit" value="submit" size="5">
     <input type="reset" value="reset" name="reset" size="5">

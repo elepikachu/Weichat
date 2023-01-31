@@ -89,8 +89,8 @@ body {
     background-color: #5b80b2;
     height: auto;
     width: auto;
-    min-width: 100px;
-    border-radius: 10px;
+    min-width: 50px;
+    border-radius: 5px;
 }
 
 .leftt::after{
@@ -101,16 +101,27 @@ body {
             border-color: transparent transparent #5b80b2 transparent;
             position: relative;
             top:-25px;
-            left:-30px;
+            left:-10px;
+            z-index: -1;
         }
+
+.leftl {
+    text-align: left;
+    height: auto;
+}
 
 .rightt {
     text-align: right;
     background-color: #81d4fa;
     height: auto;
     width: auto;
-    min-width: 100px;
-    border-radius: 10px;
+    min-width: 50px;
+    border-radius: 5px;
+}
+
+.rightl {
+    text-align: right;
+    height: auto;
 }
 
 .rightt::after{
@@ -122,6 +133,7 @@ body {
     position: relative;
     top:-25px;
     left:-30px;
+    z-index: -1;
     }
 
 .redt {
@@ -151,6 +163,20 @@ body {
     }
 }
 </style>
+<script>
+    function getImgName(username, dic) {
+        for (let i = 0; i < dic.length; i++) {
+            if (dic[i].pk === username) {
+                return dic[i].fields.img;
+            }
+        }
+        return 'images/default.jpg';
+    }
+    function clearInput() {
+        let line = document.getElementById("chat-log");
+        line.innerHTML = '';
+    }
+</script>
 </head>
  <body>
  <div class="header">
@@ -167,6 +193,7 @@ body {
      <div class="log" id="chat-log"></div><br/>
      <input id="input" type="text" size="100" style="opacity: 0.6"><br/>
      <input id="submit" type="button" value="Send">
+      <input type="button" value="Reset" onclick="clearInput()">
   </div>
 </div>
 <script>
@@ -194,13 +221,20 @@ body {
         // 接收到后台数据后对其解析，并加入到聊天记录chat-log
          chatSocket.onmessage = function(e) {
              const data = JSON.parse(e.data);
+             var dic = JSON.parse('{{ imgdic | safe }}')
 
              if (data["user"] === 'Broadcast') {
                  document.querySelector('#chat-log').innerHTML += ('<div class="redt">' + data["date"] + '-' + data["message"] + '</div><br/>');
              } else if (data["user"] === '{{ user }}') {
-                 document.querySelector('#chat-log').innerHTML += ('<div class="rightt">' + data["date"] + '-' + data["user"] + ': ' + data["message"] + '</div><br/>');
+                 let imgName = getImgName(data["user"], dic);
+                 console.log(imgName)
+                 document.querySelector('#chat-log').innerHTML += ('<div class="rightl">' + data["date"] + '-' + data["user"] + '<img src="/media/' + imgName + '" width="20px"></div>')
+                 document.querySelector('#chat-log').innerHTML += ('<div class="rightt">' + data["message"] + '</div><br/>');
              } else {
-                 document.querySelector('#chat-log').innerHTML += ('<div class="leftt">' + data["date"] + '-' + data["user"] + ': ' +  data["message"] + '</div><br/>');
+                 let imgName = getImgName(data["user"], dic);
+                 console.log(imgName)
+                 document.querySelector('#chat-log').innerHTML += ('<div class="leftl">' + data["date"] + '-' + data["user"] + '<img src="/media/' + imgName + '" width="20px"></div>')
+                 document.querySelector('#chat-log').innerHTML += ('<div class="leftt">' +  data["message"] + '</div><br/>');
              }
         };
 

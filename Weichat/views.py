@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
+from chat.models import UserImage
 
 VERSION = 'WeiChat 1.0.0'
 
@@ -30,14 +31,9 @@ def register_view(request):
         return render(request, 'register.html')
     elif request.method == 'POST':
         username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        code = request.POST['code']
-        if password2 != password1:
-            return HttpResponse('Entered password not matched')
-        if code != 'jng':
-            return HttpResponse('Inviting code is not correct')
-        User.objects.create_user(username=username, password=password1)
+        password = request.POST['password1']
+        User.objects.create_user(username=username, password=password)
+        UserImage.objects.create(username=username, img="images/default.jpg")
         return HttpResponseRedirect('/')
 
 
@@ -62,3 +58,27 @@ def logout_view(request):
 
 def choose_view(request):
     return render(request, 'choose.html')
+
+
+@login_required(login_url="/login")
+def upload_view(request):
+    if request.method == 'GET':
+        img = UserImage.objects.filter(username=request.user)
+        if len(img) == 0:
+            img = ''
+        else:
+            img = img[0].img
+        dic = {'usr': request.user, 'img': img}
+        return render(request, 'upload.html', dic)
+    if request.method == 'POST':
+        name = request.user
+        imgnew = request.FILES.get('img')
+        img = UserImage.objects.filter(username=request.user)
+        if len(img) == 0:
+            UserImage.objects.create(username=name, img=imgnew)
+        else:
+            img[0].img = imgnew
+            img[0].save()
+
+
+        return HttpResponseRedirect('/')
