@@ -31,6 +31,7 @@ urlpatterns = [
     path('chooce', views.choose_view),
     path('upload', views.upload_view),
     path('chat/', include('chat.urls')),
+    path('robots.txt', views.robots_txt),
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_GET
 from django.http import HttpResponse, HttpResponseRedirect
 from chat.models import UserImage
 
@@ -79,6 +80,13 @@ def upload_view(request):
         else:
             img[0].img = imgnew
             img[0].save()
-
-
         return HttpResponseRedirect('/')
+
+
+@require_GET
+def robots_txt(request):
+    lines = [
+        "User-Agent: *",
+        "Disallow: *",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
